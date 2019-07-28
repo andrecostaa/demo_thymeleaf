@@ -30,6 +30,7 @@ import com.estudo.curso.boot.service.DepartamentoService;
 public class CargoController {
 	private static final String SUCCESS = "success";
 	private static final String FAIL = "fail";
+	private static final String MSG_CARGO_NAO_REMOVIDO = "Cargo não removido. Possui funcionário(s) vinculado(s).";
 	
 	@Autowired
 	private CargoService cargoService;
@@ -66,6 +67,17 @@ public class CargoController {
 		cargoService.editar(cargo);
 		attr.addFlashAttribute(SUCCESS, "Registro atualizado com sucesso.");
 		return "redirect:/cargos/cadastrar";
+	}
+	
+	@GetMapping("/excluir/{id}")
+	public String excluir(@PathVariable("id") Long id, RedirectAttributes attr) {
+		if (cargoService.cargoTemFuncionarios(id)) {
+			attr.addFlashAttribute(FAIL, MSG_CARGO_NAO_REMOVIDO);
+		} else {
+			cargoService.excluir(id);
+			attr.addFlashAttribute(SUCCESS, "O cargo foi excluído com sucesso.");
+		}
+		return "redirect:/cargos/listar";
 	}
 	
 	@ModelAttribute("departamentos")

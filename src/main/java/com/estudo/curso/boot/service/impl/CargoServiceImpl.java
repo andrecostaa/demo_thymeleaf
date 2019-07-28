@@ -8,9 +8,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import com.estudo.curso.boot.dao.CargoDao;
 import com.estudo.curso.boot.domain.Cargo;
+import com.estudo.curso.boot.domain.Funcionario;
 import com.estudo.curso.boot.service.CargoService;
 
 /**
@@ -48,6 +50,13 @@ public class CargoServiceImpl implements CargoService {
 	@Override @Transactional(readOnly = true)
 	public List<Cargo> buscarTodos() {
 		return dao.findAll();
+	}
+
+	@Override
+	public boolean cargoTemFuncionarios(Long id) {
+		List<Funcionario> funcionarios = buscarPorId(id).getFuncionarios();
+		boolean temFuncionarios = !CollectionUtils.isEmpty(funcionarios);
+		return temFuncionarios;
 	}
 
 }
