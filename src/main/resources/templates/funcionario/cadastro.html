@@ -23,7 +23,7 @@
 	
 	        <div class="container" id="cadastro">
 	        	
-	        	<div th:replace="fragments/alert"></div>
+				<div th:replace="fragments/alert"></div>
 	        	
 	            <form th:action="@{/funcionarios/salvar}" th:object="${funcionario}" method="POST">
 	                <div class="form-row">
@@ -65,7 +65,8 @@
 	                        <label for="cargo">Cargo</label>
 	                        <select id="cargo" class="form-control" th:field="*{cargo}">
 	                            <option value="">Selecione...</option>
-	                            <option th:each="c : ${cargos}" th:value="${c.id}" th:text="${c.nome}"></option>
+	                            <option th:each="c : ${cargos}" th:value="${c.id}"
+	                            	th:text="${c.nome}">Teste</option>
 	                        </select>
 	                        <div class="invalid-feedback">
 	
@@ -133,7 +134,7 @@
 	                        </div>
 	                    </div>
 	                </div>
-	                <input type="hidden" id="id" name="id" value=""/>
+	                <input type="hidden" id="id" name="id" value="" />
 	                <button type="submit" class="btn btn-primary btn-sm">Salvar</button>
 	            </form>
 	        </div>
