@@ -21,6 +21,8 @@
 	
 	        <div class="container">
 	
+				<div th:replace="fragments/alert"></div>
+	
 	            <p>
 	                <i class="oi oi-magnifying-glass"></i><span></span>
 	                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseNome"
@@ -38,9 +40,9 @@
 	                    <div class="collapse" id="collapseNome">
 	
 	                        <nav class="navbar navbar-light bg-light">
-	                            <form class="form-inline" method="GET" action="/funcionarios/buscar/nome">
+	                            <form class="form-inline" method="GET" th:action="@{/funcionarios/buscar/nome}">
 	                                <input class="form-control mr-sm-2" type="search" placeholder="nome" aria-label="Search"
-	                                       name="nome" />
+	                                       th:name="nome" />
 	                                <button class="btn btn-outline-success my-2 my-sm-0">Search</button>
 	                            </form>
 	                        </nav>
@@ -53,20 +55,10 @@
 	                    <div class="collapse" id="collapseCargo">
 	
 	                        <nav class="navbar navbar-light bg-light">
-	                            <form class="form-inline" method="GET" action="/funcionarios/buscar/cargo">
-	                                <select class="form-control mr-sm-2" name="cargo" aria-label="Search">
+	                            <form class="form-inline" method="GET" th:action="@{/funcionarios/buscar/cargo}">
+	                                <select class="form-control mr-sm-2" th:name="id" aria-label="Search">
 	                                    <option value="">Cargo</option>
-	                                    <option value="1">Auxiliar Contábil</option>
-	                                    <option value="2">Auxiliar Administrativo</option>
-	                                    <option value="3">Contador</option>
-	                                    <option value="4">Adminitrador</option>
-	                                    <option value="5">Programado PHP</option>
-	                                    <option value="6">Desenvolvedor Java Jr.</option>
-	                                    <option value="7">Desenvolvedor Java Pleno</option>
-	                                    <option value="8">Desenvolvedor Java Senior</option>
-	                                    <option value="9">Auxiliar de RH</option>
-	                                    <option value="10">Coordenador de RH</option>
-	                                    <option value="11">Psicologo</option>
+	                                    <option th:each="c : ${cargos}" th:value="${c.id}" th:text="${c.nome}">Auxiliar</option>
 	                                </select>
 	                                <button class="btn btn-outline-success my-2 my-sm-0">Search</button>
 	                            </form>
@@ -80,11 +72,11 @@
 	                    <div class="collapse" id="collapseData">
 	
 	                        <nav class="navbar navbar-light bg-light">
-	                            <form class="form-inline" method="GET" action="/funcionarios/buscar/data">
+	                            <form class="form-inline" method="GET" 	th:action="@{/funcionarios/buscar/data}">
 	                                <input class="form-control mr-sm-2" type="date" aria-label="Search"
-	                                       name="entrada" />
+	                                       th:name="entrada" />
 	                                <input class="form-control mr-sm-2" type="date" aria-label="Search"
-	                                       name="saida" />
+	                                       th:name="saida" />
 	                                <button class="btn btn-outline-success my-2 my-sm-0">Search</button>
 	                            </form>
 	                        </nav>
@@ -135,10 +127,11 @@
 		                        <td th:text="${#temporals.format(f.dataEntrada, 'dd/MM/yyyy')}">01/10/2014</td>
 		                        <td th:text="${#temporals.format(f.dataSaida, 'dd/MM/yyyy')}">01/10/2014</td>
 		                        <td colspan="2">
-		                            <a class="btn btn-info btn-sm" href="/funcionarios/editar/1" role="button">
+		                            <a class="btn btn-info btn-sm" th:href="@{/funcionarios/editar/{id} (id=${f.id}) }" role="button">
 		                                <span class="oi oi-brush" title="Editar" aria-hidden="true"></span>
 		                            </a>
-		                            <button id="btn_funcionarios/excluir/1" type="button" class="btn btn-danger btn-sm"
+		                            <button th:id="${#strings.concat('btn_funcionarios/excluir/', f.id) }" 
+		                            		type="button" class="btn btn-danger btn-sm"
 		                                    data-toggle="modal" data-target="#myModal">
 		                                <span class="oi oi-circle-x" title="Excluir" aria-hidden="true"></span>
 		                            </button>
@@ -149,7 +142,8 @@
 	                </table>
 	            </div>
 	        </div>
+	        <div th:replace="fragments/modal :: modal"></div>
+	        
 	    </section>
-
 </body>
 </html>		
